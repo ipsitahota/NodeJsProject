@@ -75,9 +75,12 @@
 const express = require('express')
 const app = express()
 const db = require('./db')
+require('dotenv').config();
 
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())// req.body
+
+const PORT = process.env.PORT || 3000;
 
 app.get('/', function (req, res) {//req is sent by client,response is sent by us
   res.send('Hello Dear:) How can I help you in our hotel!')
@@ -103,6 +106,6 @@ const menuItemRoutes =require('./routes/menuItemRoutes')
 app.use('/person',personRoutes)
 app.use('/menuItem',menuItemRoutes)
 
-app.listen(3000, ()=>{
+app.listen(PORT, ()=>{
     console.log('Listening on port 3000')
 })//3000 is port

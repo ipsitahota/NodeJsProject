@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const MenuItem = require('./../models/MenuItem.js' )
+const MenuItem = require('../models/menuItem.js' )
 
 router.post('/',async (req,res) =>{
     try{

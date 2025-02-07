@@ -76,12 +76,24 @@ const express = require('express')
 const app = express()
 const db = require('./db')
 require('dotenv').config();
+const passport= require('./auth');
 
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())// req.body
 
 const PORT = process.env.PORT || 3000;
 
+//middleware function
+const logRequest =(req,res,next)=>{
+  console.log(`[${new Date().toLocaleString()}] request Made to: ${req.originalUrl}`);
+  next();//move to next phase
+}
+
+app.use(logRequest);//for all operations it will be print 
+
+app.use(passport.initialize());
+
+const localAuthMiddleware =passport.authenticate('local',{session:false})
 app.get('/', function (req, res) {//req is sent by client,response is sent by us
   res.send('Hello Dear:) How can I help you in our hotel!')
 })
@@ -103,8 +115,8 @@ app.get('/', function (req, res) {//req is sent by client,response is sent by us
 const personRoutes = require('./routes/personRoutes')
 const menuItemRoutes =require('./routes/menuItemRoutes')
 
-app.use('/person',personRoutes)
-app.use('/menuItem',menuItemRoutes)
+app.use('/person',localAuthMiddleware,personRoutes)
+app.use('/menuItem',menuItemRoutes)//add logRequest when waant to use in once
 
 app.listen(PORT, ()=>{
     console.log('Listening on port 3000')

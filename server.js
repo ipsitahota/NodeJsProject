@@ -115,7 +115,7 @@ app.get('/', function (req, res) {//req is sent by client,response is sent by us
 const personRoutes = require('./routes/personRoutes')
 const menuItemRoutes =require('./routes/menuItemRoutes')
 
-app.use('/person',localAuthMiddleware,personRoutes)
+app.use('/person',personRoutes)
 app.use('/menuItem',menuItemRoutes)//add logRequest when waant to use in once
 
 app.listen(PORT, ()=>{
